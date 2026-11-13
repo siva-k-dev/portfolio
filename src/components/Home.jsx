@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { FiDownload, FiAward, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
-import { ComputersCanvas } from './canvas'
+import HeroModel from './HeroModel'
 import { asset } from '../lib/asset'
 
 const resumeUrl = asset('Siva_K_Backend_Developer_Resume.pdf')
@@ -10,7 +10,7 @@ const openTo = ['Python Backend', 'Django', 'IAM/IGA', 'API Development', 'AI En
 
 const socials = [
   { icon: FiGithub, href: 'https://github.com/siva-k-dev', label: 'GitHub' },
-  { icon: FiLinkedin, href: 'https://www.linkedin.com/in/siva-k6369739883/', label: 'LinkedIn' },
+  { icon: FiLinkedin, href: 'https://www.linkedin.com/in/siva-k-dev/', label: 'LinkedIn' },
   { icon: FiMail, href: 'mailto:sivakandhasami01@gmail.com', label: 'Email' },
 ]
 
@@ -67,7 +67,7 @@ const Home = () => {
               download
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="pointer-events-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-500 text-white font-medium text-sm hover:bg-primary-600 transition-colors"
+              className="pointer-events-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-700 text-white font-medium text-sm hover:bg-primary-800 transition-colors"
             >
               <FiDownload /> Download Resume
             </motion.a>
@@ -111,24 +111,19 @@ const Home = () => {
           moves to the right half on lg. */}
       <div className="hidden sm:flex absolute top-[470px] left-0 w-full h-[calc(100%-470px)] lg:right-[5%] lg:top-0 lg:left-auto lg:w-1/2 lg:h-full items-start pt-6 lg:pt-0 lg:items-center justify-center z-20">
         <div className="w-full h-full max-h-[500px] lg:max-h-none">
-          <ComputersCanvas />
+          <HeroModel />
         </div>
       </div>
 
       <div className='absolute xs:bottom-10 bottom-32 w-full flex justify-center items-center'>
-        <a href='#about'>
+        <a href='#about' aria-label='Scroll to the About section'>
           <div className='w-[35px] h-[64px] rounded-3xl border-4 border-primary-500/50 flex justify-center items-start p-2'>
-            <motion.div
-              animate={{
-                y: [0, 24, 0],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                repeatType: "loop",
-              }}
-              className='w-3 h-3 rounded-full bg-primary-500 mb-1'
-            />
+            {/* Deliberately static. Both a framer-motion loop and a CSS keyframe
+                animation were measured here: the JS loop cost ~1.7 s of CPU in a
+                10 s throttled-mobile Lighthouse trace, and the CSS one added ~2 s
+                of style/layout work to Total Blocking Time (0.6 s even with
+                will-change). A bouncing dot is not worth that. */}
+            <div className='w-3 h-3 rounded-full bg-primary-500 mb-1' />
           </div>
         </a>
       </div>

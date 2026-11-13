@@ -1,22 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/src/assets/images.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Siva K | Python Backend Developer &mdash; Django &amp; DRF</title>
     <meta name="description" content="Portfolio of Siva K, a backend-focused Python developer building secure, scalable REST APIs with Django and Django REST Framework for enterprise identity governance." />
     <meta name="keywords" content="Siva K, Python Backend Developer, Django, Django REST Framework, REST API, Identity and Access Management, IAM, IGA, MySQL, Docker, Portfolio" />
-    <title>Siva K | Python Backend Developer &mdash; Django &amp; DRF</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="author" content="Siva K" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="color-scheme" content="dark" />
+    <!-- __SITE_URL__ is filled in by scripts/vite-plugin-seo.js -->
+    <link rel="canonical" href="__SITE_URL__" />
+    <link rel="icon" type="image/jpeg" href="/src/assets/images.jpg" />
 
-    <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "y10sieye09");
+    <!-- Link previews (LinkedIn, Slack, X, iMessage, ...) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Siva K" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Siva K | Python Backend Developer — Django &amp; DRF" />
+    <meta property="og:description" content="Portfolio of Siva K, a backend-focused Python developer building secure, scalable REST APIs with Django and Django REST Framework for enterprise identity governance." />
+    <meta property="og:url" content="__SITE_URL__" />
+    <meta property="og:image" content="__SITE_URL__og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Siva K, Python Backend Developer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Siva K | Python Backend Developer — Django &amp; DRF" />
+    <meta name="twitter:description" content="Portfolio of Siva K, a backend-focused Python developer building secure, scalable REST APIs with Django and Django REST Framework for enterprise identity governance." />
+    <meta name="twitter:image" content="__SITE_URL__og-image.png" />
+
+    <!-- Fonts are self-hosted from public/fonts (see src/index.css): one origin, no
+         render-blocking stylesheet from Google. The three weights the hero paints
+         with are preloaded so the first paint already uses them, with no swap. -->
+    <link rel="preload" href="/fonts/poppins-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/poppins-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/poppins-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "__SITE_URL__#person",
+          "name": "Siva K",
+          "url": "__SITE_URL__",
+          "image": "__SITE_URL__og-image.png",
+          "jobTitle": "Python Backend Developer",
+          "description": "Backend-focused Python developer building secure, scalable REST APIs with Django and Django REST Framework for enterprise identity governance.",
+          "sameAs": [
+            "https://github.com/siva-k-dev",
+            "https://www.linkedin.com/in/siva-k-dev/"
+          ],
+          "knowsAbout": [
+            "Python",
+            "Django",
+            "Django REST Framework",
+            "REST API design",
+            "Identity and Access Management",
+            "Identity Governance and Administration",
+            "MySQL",
+            "Docker"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "__SITE_URL__#website",
+          "url": "__SITE_URL__",
+          "name": "Siva K | Python Backend Developer",
+          "description": "Portfolio of Siva K, a backend-focused Python developer building secure, scalable REST APIs with Django and Django REST Framework for enterprise identity governance.",
+          "inLanguage": "en",
+          "author": { "@id": "__SITE_URL__#person" }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Microsoft Clarity. Analytics is useful but never urgent: the queue stub is
+         defined now so early calls are kept, and the script itself is fetched on
+         the visitor's first interaction (which is also when a session recording
+         starts meaning anything), or after 10 s for visitors who only read. It
+         therefore never competes with the hero for bandwidth or the main thread. -->
+    <script>
+      (function (w, d) {
+        w.clarity = w.clarity || function () { (w.clarity.q = w.clarity.q || []).push(arguments) };
+        var start = function () {
+          var s = d.createElement('script');
+          s.async = true;
+          s.src = 'https://www.clarity.ms/tag/y10sieye09';
+          d.head.appendChild(s);
+        };
+        var EVENTS = ['pointermove', 'pointerdown', 'touchstart', 'keydown', 'scroll', 'wheel'];
+        var started = false;
+        var begin = function () {
+          if (started) return;
+          started = true;
+          EVENTS.forEach(function (e) { w.removeEventListener(e, begin, true); });
+          start();
+        };
+        EVENTS.forEach(function (e) { w.addEventListener(e, begin, { capture: true, passive: true, once: true }); });
+        w.setTimeout(begin, 10000);
+      })(window, document);
     </script>
   </head>
   <body>

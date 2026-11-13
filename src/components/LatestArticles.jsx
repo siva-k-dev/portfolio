@@ -62,7 +62,7 @@ const LatestArticles = () => {
               className="rounded-2xl bg-gray-50 dark:bg-dark-bg shadow-lg hover:shadow-2xl transition-all h-full"
             >
               <Link to={`/blog/${article.slug}`} className="flex flex-col h-full p-6 group">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-500 mb-3">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mb-3">
                   <span className="inline-flex items-center gap-1.5">
                     <FiCalendar /> {formatDate(article.date)}
                   </span>
@@ -107,7 +107,7 @@ const LatestArticles = () => {
         >
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-700 text-white font-medium hover:bg-primary-800 transition-colors"
           >
             View all articles <FiArrowRight />
           </Link>

@@ -21,7 +21,7 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: FiGithub, href: 'https://github.com/siva-k-dev', label: 'GitHub' },
-    { icon: FiLinkedin, href: 'https://www.linkedin.com/in/siva-k6369739883/', label: 'LinkedIn' },
+    { icon: FiLinkedin, href: 'https://www.linkedin.com/in/siva-k-dev/', label: 'LinkedIn' },
     { icon: FiMail, href: 'mailto:sivakandhasami01@gmail.com', label: 'Email' },
   ]
 
@@ -84,12 +84,12 @@ const Footer = () => {
               Interested in collaborating or have any questions? Let's connect!
             </p>
             <motion.a
-              href="https://www.linkedin.com/in/siva-k6369739883/"
+              href="https://www.linkedin.com/in/siva-k-dev/"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-700 text-white font-medium hover:bg-primary-800 transition-colors"
             >
               Follow on linkedin →
             </motion.a>
@@ -101,13 +101,10 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
             <p>
               © {currentYear} portfolio made with{' '}
-              <motion.span
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-                className="inline-block text-red-500"
-              >
-              <FiHeart className="inline" />
-            </motion.span>{' '}
+              {/* Static on purpose - see the scroll indicator in Home.jsx */}
+              <span className="inline-block text-red-500">
+                <FiHeart className="inline" />
+              </span>{' '}
               by Siva K
             </p>
             <a
@@ -127,7 +124,7 @@ const Footer = () => {
         animate={{ opacity: 1 }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary-500 text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow z-40"
+        className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary-700 text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow z-40"
         aria-label="Back to top"
       >
         ↑

@@ -6,7 +6,12 @@ import CanvasLoader from "../Loader";
 import { asset } from "../../lib/asset";
 
 const Computers = ({ isMobile }) => {
-  const computer = useGLTF(asset("desktop_pc/scene.gltf"));
+  // scene.glb is the original scene.gltf export (15.8 MB with its textures) run
+  // through gltf-transform: meshopt-compressed geometry and 1024px WebP textures,
+  // 1.4 MB in one file. To regenerate from a fresh export:
+  //   npx @gltf-transform/cli optimize scene.gltf scene.glb --compress meshopt --texture-compress webp --texture-size 1024
+  // Draco is off (the file does not use it); the meshopt decoder is on.
+  const computer = useGLTF(asset("desktop_pc/scene.glb"), false, true);
 
   return (
     <mesh>
@@ -60,9 +65,9 @@ const ComputersCanvas = () => {
       <Canvas
         frameloop='demand'
         shadows
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
         camera={{ position: [20, 3, 5], fov: 25 }}
-        gl={{ preserveDrawingBuffer: true }}
+        gl={{ powerPreference: 'high-performance' }}
         onCreated={() => setTimeout(() => setIsLoading(false), 100)}
         style={{ pointerEvents: 'auto' }}
       >

@@ -3,14 +3,11 @@ import { Link, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiCalendar, FiClock, FiArrowLeft, FiExternalLink } from 'react-icons/fi'
 import { getArticle } from '../data/articles'
+import { site } from '../data/site'
+import { setPageMeta } from '../lib/seo'
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-
-const setMetaDescription = (content) => {
-  const tag = document.querySelector('meta[name="description"]')
-  if (tag) tag.setAttribute('content', content)
-}
 
 const NotFound = () => (
   <main className="section-padding pt-28 md:pt-32 bg-gray-50 dark:bg-dark-bg min-h-screen w-full">
@@ -21,7 +18,7 @@ const NotFound = () => (
       </p>
       <Link
         to="/blog"
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors"
+        className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-700 text-white font-medium hover:bg-primary-800 transition-colors"
       >
         <FiArrowLeft /> All articles
       </Link>
@@ -35,11 +32,14 @@ const BlogPost = () => {
 
   useEffect(() => {
     if (!article) {
-      document.title = 'Article not found | Siva K'
+      setPageMeta({ title: `Article not found | ${site.name}`, path: 'blog/' })
       return
     }
-    document.title = `${article.title} | Siva K`
-    setMetaDescription(article.description)
+    setPageMeta({
+      title: `${article.title} | ${site.name}`,
+      description: article.description,
+      path: `blog/${article.slug}/`,
+    })
   }, [article])
 
   if (!article) return <NotFound />
@@ -61,7 +61,7 @@ const BlogPost = () => {
             transition={{ duration: 0.5 }}
             className="mb-10"
           >
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-500 mb-4">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mb-4">
               <span className="inline-flex items-center gap-1.5">
                 <FiCalendar /> {formatDate(article.date)}
               </span>
@@ -158,7 +158,7 @@ const BlogPost = () => {
           <div className="mt-12 pt-8 border-t border-gray-200 dark:border-dark-border">
             <Link
               to="/blog"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-700 text-white font-medium hover:bg-primary-800 transition-colors"
             >
               <FiArrowLeft /> All articles
             </Link>

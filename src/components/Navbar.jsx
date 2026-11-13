@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
-import logo from '../assets/s_image.png'
+import logo from '../assets/logo.webp' // 96px, 1.7 KB; the 1024px source is src/assets/s_image.png
 
 // Router-aware so section links keep working from /blog as well as from /
 const MotionLink = motion(Link)
@@ -101,7 +101,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <img src={logo} alt="Siva" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
+            <img src={logo} alt="Siva K" width="48" height="48" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
           </MotionLink>
 
           {/* Desktop Navigation */}
@@ -160,6 +160,9 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             
             <motion.button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
               className="p-2 rounded-lg bg-gray-200 dark:bg-dark-border"
               whileTap={{ scale: 0.9 }}
             >
@@ -175,6 +178,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
+              id="mobile-menu"
               className="md:hidden overflow-hidden"
             >
               <div className="py-4 space-y-2">

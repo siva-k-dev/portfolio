@@ -143,7 +143,7 @@ const GithubStats = () => {
                     bars, single hue. Identity comes from the text label, not the colour,
                     which is why no legend is needed. Values are labelled directly. */}
                 <h3 className="text-lg font-semibold mb-1 text-center">Language Usage</h3>
-                <p className="text-xs text-gray-500 dark:text-gray-500 text-center mb-6">
+                <p className="text-xs text-gray-500 dark:text-gray-400 text-center mb-6">
                   By primary language across {stats.classified} public repositories
                 </p>
 
@@ -194,7 +194,7 @@ const GithubStats = () => {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-700 text-white font-medium hover:bg-primary-800 transition-colors"
           >
             <FiGithub /> View Full Profile <FiExternalLink className="text-sm" />
           </motion.a>

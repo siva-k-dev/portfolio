@@ -2,11 +2,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { copyFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
+import seo from './scripts/vite-plugin-seo.js'
 
 // The site uses a client-side router on static hosting, so a request for
 // /blog/<slug> never matches a real file. GitHub Pages serves 404.html for
 // unmatched paths while leaving the URL intact, so an exact copy of index.html
 // lets the router resolve the route - deep links and refreshes then work.
+// (scripts/vite-plugin-seo.js additionally prerenders a real index.html for
+// every known route, so this copy only catches URLs that are genuinely unknown.)
 //
 // On other hosts use their own rewrite instead:
 //   Netlify -> public/_redirects with:  /* /index.html 200
@@ -35,13 +38,36 @@ const spaFallback = () => ({
 //
 // Dev always stays on "/" so localhost:3000 is unaffected. Runtime asset URLs
 // go through src/lib/asset.js, so they follow whatever this resolves to.
-const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1]
+const [owner, repoName] = (process.env.GITHUB_REPOSITORY || '').split('/')
 const inferredBase = !repoName || repoName.endsWith('.github.io') ? '/' : `/${repoName}/`
 const BASE = process.env.BASE_PATH || inferredBase
 
+// The absolute site URL feeds the canonical link, Open Graph tags, JSON-LD,
+// sitemap.xml and robots.txt. It is derived the same way as BASE so a rename
+// cannot leave stale URLs behind. A local build has no GITHUB_REPOSITORY, so it
+// falls back to the live site - that keeps a local Lighthouse run representative.
+// Set SITE_URL to override (for example when a custom domain is attached).
+const inferredSiteUrl = owner ? `https://${owner}.github.io${inferredBase}` : 'https://siva-k-dev.github.io/portfolio/'
+const SITE_URL = (process.env.SITE_URL || inferredSiteUrl).replace(/\/?$/, '/')
+
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? BASE : '/',
-  plugins: [react(), spaFallback()],
+  define: {
+    __SITE_URL__: JSON.stringify(SITE_URL),
+  },
+  plugins: [react(), spaFallback(), seo({ siteUrl: SITE_URL })],
+  build: {
+    rollupOptions: {
+      output: {
+        // Stable vendor chunks cache independently of app code. Three.js is not
+        // listed on purpose: it only lives in the lazily loaded hero-model chunk.
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-motion': ['framer-motion'],
+        },
+      },
+    },
+  },
   server: {
     port: 3000,
     open: true

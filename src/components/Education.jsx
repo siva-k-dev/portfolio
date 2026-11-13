@@ -235,7 +235,7 @@ const Education = () => {
                       {edu.institution}
                     </p>
                     {edu.affiliation && (
-                      <p className="text-sm text-gray-500 dark:text-gray-500 mb-2">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                         {edu.affiliation}
                       </p>
                     )}
@@ -357,7 +357,7 @@ const Education = () => {
                 }
               >
                 {achievement.featured && (
-                  <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-primary-500 text-white text-[10px] font-bold uppercase tracking-wide shadow-lg">
+                  <span className="absolute top-4 right-4 px-3 py-1 rounded-full bg-primary-700 text-white text-[10px] font-bold uppercase tracking-wide shadow-lg">
                     Featured
                   </span>
                 )}
@@ -431,7 +431,7 @@ const Education = () => {
                   <span className="font-semibold text-base leading-snug">{certification.title}</span>
                   <p className="text-sm font-medium text-primary-500">{certification.institution}</p>
                   {certification.status && (
-                    <p className="text-xs text-gray-500 dark:text-gray-500">{certification.status}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{certification.status}</p>
                   )}
                   <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                     {certification.description}
@@ -455,7 +455,7 @@ const Education = () => {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="mt-3 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-500 text-white font-medium text-sm hover:bg-primary-600 transition-colors"
+                      className="mt-3 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-700 text-white font-medium text-sm hover:bg-primary-800 transition-colors"
                     >
                       <FiFileText /> View Certificate
                     </motion.a>

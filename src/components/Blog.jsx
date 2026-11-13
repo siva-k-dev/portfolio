@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiCalendar, FiClock, FiArrowRight } from 'react-icons/fi'
 import { sortedArticles } from '../data/articles'
+import { site } from '../data/site'
+import { setPageMeta } from '../lib/seo'
 
 const formatDate = (iso) =>
   new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
 const Blog = () => {
   useEffect(() => {
-    document.title = 'Articles | Siva K — Python Backend Developer'
+    setPageMeta({ title: site.blog.title, description: site.blog.description, path: 'blog/' })
   }, [])
 
   return (
@@ -52,7 +54,7 @@ const Blog = () => {
               className="rounded-2xl bg-white dark:bg-dark-card shadow-lg hover:shadow-2xl transition-all"
             >
               <Link to={`/blog/${article.slug}`} className="block p-6 sm:p-8 group">
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-500 mb-3">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400 mb-3">
                   <span className="inline-flex items-center gap-1.5">
                     <FiCalendar /> {formatDate(article.date)}
                   </span>

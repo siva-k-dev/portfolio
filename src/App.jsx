@@ -1,18 +1,24 @@
-import { useState, useEffect } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { IconContext } from 'react-icons'
 import Navbar from './components/Navbar'
 import Home from './components/Home'
-import About from './components/About'
-import Skills from './components/Skills'
-import Projects from './components/Projects'
-import GithubStats from './components/GithubStats'
-import Experience from './components/Experience'
-import Education from './components/Education'
-import LatestArticles from './components/LatestArticles'
-import Contact from './components/Contact'
 import Footer from './components/Footer'
-import Blog from './components/Blog'
-import BlogPost from './components/BlogPost'
+import { setPageMeta } from './lib/seo'
+
+// Only the navbar, hero and footer are in the initial bundle. The sections under
+// the hero, and the blog routes, arrive as separate chunks so the first paint
+// waits for as little JavaScript as possible. (The 3D hero model is split off
+// further still - see components/HeroModel.jsx.)
+const BelowTheFold = lazy(() => import('./components/BelowTheFold'))
+const Blog = lazy(() => import('./components/Blog'))
+const BlogPost = lazy(() => import('./components/BlogPost'))
+
+// Some react-icons sets (Simple Icons) render role="img", which screen readers
+// then announce as an unnamed image. Every icon on this site sits next to its
+// text label or inside a link/button that carries aria-label, so mark them all
+// decorative once here rather than on each of the ~100 usages.
+const ICON_CONTEXT = { attr: { 'aria-hidden': 'true', focusable: 'false' } }
 
 const NAV_OFFSET = 80 // fixed navbar height, so section headings clear it
 
@@ -53,9 +59,10 @@ const ScrollManager = () => {
       return undefined
     }
 
-    // Coming from /blog the portfolio has to mount before the section exists, so
-    // poll briefly for it - then align exactly once. Repeatedly re-scrolling would
-    // restart the smooth animation on every tick and never settle.
+    // Coming from /blog the portfolio has to mount before the section exists, and
+    // the sections themselves are a lazy chunk, so poll briefly for the target -
+    // then align exactly once. Repeatedly re-scrolling would restart the smooth
+    // animation on every tick and never settle.
     let cancelled = false
     let attempts = 0
     let timer = null
@@ -68,7 +75,7 @@ const ScrollManager = () => {
         return
       }
       attempts += 1
-      if (attempts < 40) timer = window.setTimeout(align, 50)
+      if (attempts < 80) timer = window.setTimeout(align, 50)
     }
 
     align()
@@ -82,96 +89,99 @@ const ScrollManager = () => {
   return null
 }
 
-const PortfolioPage = () => (
-  <main className="overflow-x-hidden w-full">
-    <Home />
-    <About />
-    <Skills />
-    <Projects />
-    <GithubStats />
-    <Experience />
-    <Education />
-    <LatestArticles />
-    <Contact />
-  </main>
+const PortfolioPage = () => {
+  // Coming back from /blog by client-side navigation, the document still carries
+  // the article's tags - restore the home page's.
+  useEffect(() => {
+    setPageMeta()
+  }, [])
+
+  return (
+    <main className="overflow-x-hidden w-full">
+      <Home />
+      <Suspense fallback={null}>
+        <BelowTheFold />
+      </Suspense>
+    </main>
+  )
+}
+
+// Holds the page height while a route chunk is in flight, so the footer does not
+// flash at the top of the viewport and then jump away.
+const RouteFallback = () => (
+  <main className="min-h-screen bg-gray-50 dark:bg-dark-bg w-full" aria-busy="true" />
 )
 
-const RouteNotFound = () => (
-  <main className="section-padding pt-28 md:pt-32 bg-gray-50 dark:bg-dark-bg min-h-screen w-full">
-    <div className="container-custom text-center">
-      <h1 className="text-3xl sm:text-4xl font-bold mb-4">Page not found</h1>
-      <p className="text-gray-600 dark:text-gray-400 mb-8">
-        That page does not exist. Try the portfolio or the articles instead.
-      </p>
-      <div className="flex flex-wrap gap-3 justify-center">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors"
-        >
-          Portfolio
-        </Link>
-        <Link
-          to="/blog"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500/10 border border-primary-500/30 text-primary-500 font-medium hover:bg-primary-500/20 transition-colors"
-        >
-          Articles
-        </Link>
+const RouteNotFound = () => {
+  useEffect(() => {
+    setPageMeta({ title: 'Page not found | Siva K' })
+  }, [])
+
+  return (
+    <main className="section-padding pt-28 md:pt-32 bg-gray-50 dark:bg-dark-bg min-h-screen w-full">
+      <div className="container-custom text-center">
+        <h1 className="text-3xl sm:text-4xl font-bold mb-4">Page not found</h1>
+        <p className="text-gray-600 dark:text-gray-400 mb-8">
+          That page does not exist. Try the portfolio or the articles instead.
+        </p>
+        <div className="flex flex-wrap gap-3 justify-center">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-700 text-white font-medium hover:bg-primary-800 transition-colors"
+          >
+            Portfolio
+          </Link>
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary-500/10 border border-primary-500/30 text-primary-500 font-medium hover:bg-primary-500/20 transition-colors"
+          >
+            Articles
+          </Link>
+        </div>
       </div>
-    </div>
-  </main>
-)
+    </main>
+  )
+}
 
 function App() {
   // Light mode temporarily disabled - dark mode only
   const [darkMode, setDarkMode] = useState(true)
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 1500)
-  }, [])
-
-  useEffect(() => {
-    // Force dark mode always
+    // Force dark mode always (index.html already ships <html class="dark"> so the
+    // first paint is dark; this keeps it so if anything toggles the class).
     document.documentElement.classList.add('dark')
-    localStorage.setItem('theme', 'dark')
+    try {
+      localStorage.setItem('theme', 'dark')
+    } catch {
+      // storage can be unavailable (private mode, blocked); nothing depends on it
+    }
   }, [darkMode])
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
-        <div className="text-center">
-          <div className="loading-dots text-primary-500 mb-4">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <p className="text-white/60 font-mono">Loading portfolio...</p>
-        </div>
-      </div>
-    )
-  }
 
   // basename matches Vite's base so routes resolve under the GitHub Pages subpath
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <ScrollManager />
-      <div
-        id="app-root"
-        className={`min-h-screen transition-colors duration-300 overflow-x-hidden w-full ${
-          darkMode ? 'bg-dark-bg text-white' : 'bg-gray-50 text-gray-900'
-        }`}
-      >
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-        <Routes>
-          <Route path="/" element={<PortfolioPage />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="*" element={<RouteNotFound />} />
-        </Routes>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <IconContext.Provider value={ICON_CONTEXT}>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <ScrollManager />
+        <div
+          id="app-root"
+          className={`min-h-screen transition-colors duration-300 overflow-x-hidden w-full ${
+            darkMode ? 'bg-dark-bg text-white' : 'bg-gray-50 text-gray-900'
+          }`}
+        >
+          <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Suspense fallback={<RouteFallback />}>
+            <Routes>
+              <Route path="/" element={<PortfolioPage />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="*" element={<RouteNotFound />} />
+            </Routes>
+          </Suspense>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </IconContext.Provider>
   )
 }
 

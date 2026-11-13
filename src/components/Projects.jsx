@@ -390,7 +390,7 @@ const ProjectCard = ({ index, name, badge, date, description, highlights, detail
                 rel='noopener noreferrer'
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className='inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-500 text-white text-[13px] font-medium hover:bg-primary-600 transition-colors'
+                className='inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-700 text-white text-[13px] font-medium hover:bg-primary-800 transition-colors'
               >
                 <FiGithub /> GitHub Repository
               </motion.a>

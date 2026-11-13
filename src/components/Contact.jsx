@@ -78,7 +78,7 @@ const Contact = () => {
 
   const socialLinks = [
     { icon: FiGithub, href: 'https://github.com/siva-k-dev', label: 'GitHub' },
-    { icon: FiLinkedin, href: 'https://www.linkedin.com/in/siva-k6369739883/', label: 'LinkedIn' },
+    { icon: FiLinkedin, href: 'https://www.linkedin.com/in/siva-k-dev/', label: 'LinkedIn' },
   ]
 
   return (
@@ -272,7 +272,7 @@ const Contact = () => {
                 className={`w-full px-8 py-4 rounded-lg font-medium text-white transition-all flex items-center justify-center gap-2 ${
                   isSubmitting
                     ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-primary-500 hover:bg-primary-600'
+                    : 'bg-primary-700 hover:bg-primary-800'
                 }`}
               >
                 {isSubmitting ? (
